@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-import Controller from "../../Controller";
+import Controller from "../Controller";
 
 import noticeDummy from "../../../config/data/notice-dummy.json";
 
