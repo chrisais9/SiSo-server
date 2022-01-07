@@ -1,4 +1,6 @@
 import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import EVM from "./modules/EnvironmentVariableManager";
 
 import router from "./router";
@@ -23,8 +25,16 @@ app.use(express.json({ limit: "100mb" })); // json 지원
 
 app.use(router); // 라우터 연결
 
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+    allowEIO3: true
+})
 
-app.listen(EVM.PORT, () => {
+io.on("connection", (socket) => {
+    console.log("connected")
+})
+
+httpServer.listen(EVM.PORT, () => {
     console.log('Started server with 3000');
 });
 
