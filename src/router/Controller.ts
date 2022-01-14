@@ -1,6 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { createHttpError, SentenceKey } from '../modules/HttpError';
+import User, { IUserSchema } from '../schema/User';
 
+declare global {
+    namespace Express {
+        interface Request {
+            user?: IUserSchema; // 로그인한 유저
+        }
+    }
+}
 
 export default class Controller {
     /**
@@ -27,5 +36,23 @@ export default class Controller {
                     data,
                 })
                 .end();
+    }
+
+    /**
+     * @description Login middleware ( 로그인 성공 시 req.user에 유저 객체 반환 )
+     */
+    public static async authenticate(req: Request, res: Response, next: NextFunction) {
+        try {
+            // JWT 토큰을 가져옴
+            let jwtToken = req.headers.authorization;
+            if (!jwtToken) throw createHttpError(StatusCodes.UNAUTHORIZED, SentenceKey.BAD_TOKEN, "잘못된 JWT 토큰");
+
+            // 로그인 시도
+            req.user = await User.loginByJWTToken(jwtToken)
+
+            return next();
+        } catch (err) {
+            return next(err);
+        }
     }
 }
