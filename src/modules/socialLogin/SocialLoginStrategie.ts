@@ -3,7 +3,7 @@
  * @email chrisais9@playground.party
  * @create date 2022-01-14
  * @modify date 2022-01-14
- * @desc [description]
+ * @desc Abstracted social login strategies
  */
 
 import { SocialLoginInfo } from "./SocialLoinHelper";
