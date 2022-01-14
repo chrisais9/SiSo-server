@@ -12,7 +12,7 @@ import { Document, model, Model, Schema } from "mongoose";
 import { createHttpError, SentenceKey } from "../modules/HttpError";
 import JWTTokenManger from "../modules/JWTTokenManger";
 import SocialLoginHelper, { SocialLoginInfo } from "../modules/socialLogin/SocialLoginHelper";
-import { SocialLoginStrategies } from "../modules/socialLogin/SocialLoginStrategie";
+import { SocialLoginStrategies } from "../modules/socialLogin/SocialLoginStrategies";
 
 
 export interface IUserJWTToken {

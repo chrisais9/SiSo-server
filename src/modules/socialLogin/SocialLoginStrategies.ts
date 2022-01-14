@@ -6,7 +6,7 @@
  * @desc Abstracted social login strategies
  */
 
-import { SocialLoginInfo } from "./SocialLoinHelper";
+import { SocialLoginInfo } from "./SocialLoginHelper";
 
 export enum SocialLoginStrategies {
     KAKAO = "kakao",
@@ -16,7 +16,7 @@ export enum SocialLoginStrategies {
     NAVER = "naver"
 }
 
-export default abstract class SocialLoginStrategie {
+export default abstract class SocialLoginStrategy {
     /**
      * Resonse user information via token
      * @param token accesstoken
