@@ -9,6 +9,7 @@
 import { StatusCodes } from "http-status-codes";
 import { createHttpError, SentenceKey } from "../HttpError";
 import { SocialLoginStrategies } from "./SocialLoginStrategies";
+import Kakao from "./strategy/Kakao";
 
 /**
  * @description Fields which can be fetched by social login api
@@ -22,7 +23,7 @@ export interface SocialLoginInfo {
 
 class SocialLoginHelper {
     private readonly socialLoginList = {
-        [SocialLoginStrategies.KAKAO]: "d"
+        [SocialLoginStrategies.KAKAO]: Kakao
         // todo
     }
 
