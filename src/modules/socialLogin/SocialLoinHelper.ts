@@ -22,7 +22,7 @@ export interface SocialLoginInfo {
 
 class SocialLoginHelper {
     private readonly socialLoginList = {
-
+        // todo
     }
 
     async socialLoginInformation(type: SocialLoginStrategies, token: string) {
@@ -31,3 +31,5 @@ class SocialLoginHelper {
         return await social.tokenInfo(token)
     }
 }
+
+export default new SocialLoginHelper()

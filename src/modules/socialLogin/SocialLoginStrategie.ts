@@ -17,5 +17,9 @@ export enum SocialLoginStrategies {
 }
 
 export default abstract class SocialLoginStrategie {
+    /**
+     * Resonse user information via token
+     * @param token accesstoken
+     */
     abstract tokenInfo(token: string): Promise<SocialLoginInfo>
 }
