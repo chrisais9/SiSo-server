@@ -18,11 +18,12 @@ class Kakao extends SocialLoginStrategy {
 
             return {
                 type: SocialLoginStrategies.KAKAO,
+                email: userData?.kakao_account?.email,
                 profileImage: userData?.kakao_account?.profile?.thumbnail_image_url,
                 userName: userData?.kakao_account?.profile?.nickname,
                 userId: userData.id,
             };
-        } catch (err) {
+        } catch (error) {
             throw createHttpError(StatusCodes.UNAUTHORIZED, SentenceKey.BAD_TOKEN, "잘못된 소셜 토큰");
         }
     }

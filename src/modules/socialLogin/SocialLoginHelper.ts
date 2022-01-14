@@ -16,6 +16,7 @@ import Kakao from "./strategy/Kakao";
  */
 export interface SocialLoginInfo {
     type: SocialLoginStrategies
+    email: string
     userId: string
     userName: string
     profileImage: string
