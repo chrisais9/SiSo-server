@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import EVM from "./modules/EnvironmentVariableManager";
+import SlackManager from "./modules/SlackManager";
 
 import router from "./router";
 
@@ -56,11 +57,14 @@ app.use(router); // 라우터 연결
 // });
 
 
-const server = app.listen(EVM.PORT, () => {
+const server = app.listen(EVM.PORT, async () => {
     process.uptime
     if (process.send) {
         process.send("ready")
     }
+
+    if (EVM.NODE_APP_INSTANCE == 0 && EVM.NODE_ENV == "production") await SlackManager.sendSimpleMessage(`[${new Date().toLocaleString()}] *🟩 서버 재시작이 완료 되었습니다.*`)
+
     console.log('Started server with 3000');
 });
 
@@ -73,6 +77,8 @@ process.on("SIGINT", () => {
         // 서버 종료 성공 시 정보 반환
         console.log(`SERVER CLOSED`);
         console.log(`INSTANCE_ID: ${EVM.NODE_APP_INSTANCE}`);
+
+        if (EVM.NODE_APP_INSTANCE == 0 && EVM.NODE_ENV == "production") await SlackManager.sendSimpleMessage(`[${new Date().toLocaleString()}] *🟥 서버가 정상적으로 종료되었습니다. 재시작 대기중...*`)
 
         // 종료
         return process.exit(0);

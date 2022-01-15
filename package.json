@@ -16,6 +16,7 @@
     "serve": "nodemon --max-old-space-size=4096 ./nodemon.json"
   },
   "dependencies": {
+    "@slack/web-api": "^6.5.1",
     "axios": "^0.24.0",
     "bson": "^4.6.1",
     "dotenv": "^10.0.0",
