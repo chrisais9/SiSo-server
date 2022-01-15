@@ -25,7 +25,7 @@ module.exports = {
 			user: "ubuntu",
 			host: "api.playground.party",
 			ref: "origin/master",
-			repo: "git@github.com:chrisais9/SiSo-iOS.git",
+			repo: "git@github.com:chrisais9/SiSo-server.git",
 			path: "/home/ubuntu/SiSo-server",
 			"post-deploy": "sudo npm run setup && sudo npm start",
 		},
