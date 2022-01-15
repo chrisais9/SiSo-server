@@ -27,7 +27,7 @@ module.exports = {
 			ref: "origin/master",
 			repo: "git@github.com:chrisais9/SiSo-server.git",
 			path: "/home/ubuntu/SiSo-server",
-			"post-deploy": "sudo npm run setup && sudo npm start",
+			"post-deploy": "npm run setup && npm start",
 		},
 	},
 };
