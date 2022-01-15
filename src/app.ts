@@ -26,33 +26,41 @@ app.use(express.json({ limit: "100mb" })); // json 지원
 
 app.use(router); // 라우터 연결
 
-const httpServer = createServer(app);
+// const httpServer = createServer(app);
 
 // http 서버를 소켓 서버로 wrapping
-const io = new Server(httpServer, {
-    allowEIO3: true
-});
+// const io = new Server(httpServer, {
+//     allowEIO3: true
+// });
 
-interface MyFriend {
-    name: String;
-    email: String;
-}
-var friends = []
+// interface MyFriend {
+//     name: String;
+//     email: String;
+// }
+// var friends = []
 
-io.sockets.on("connection", (socket) => {
-    console.log("connected")
+// io.sockets.on("connection", (socket) => {
+//     console.log("connected")
 
-    socket.on("friend_enter", (data) => {
-        console.log("friend entered!!")
-        console.log(data)
-        friends.push({ name: data["name"], email: data["email"] })
-        socket.broadcast.emit("friend_list", friends)
-    })
-});
+//     socket.on("friend_enter", (data) => {
+//         console.log("friend entered!!")
+//         console.log(data)
+//         friends.push({ name: data["name"], email: data["email"] })
+//         socket.broadcast.emit("friend_list", friends)
+//     })
+// });
+// httpServer.listen(EVM.PORT, () => {
+//     process.uptime
+//     process.send && process.send("ready")
+//     console.log('Started server with 3000');
+// });
 
 
-httpServer.listen(EVM.PORT, () => {
-    process.send && process.send("ready")
+const server = app.listen(EVM.PORT, () => {
+    process.uptime
+    if (process.send) {
+        process.send("ready")
+    }
     console.log('Started server with 3000');
 });
 
@@ -61,7 +69,7 @@ process.on("SIGINT", () => {
     isDisableKeepAlive = true;
 
     // 안전한 서버 종료
-    httpServer.close(async () => {
+    server.close(async () => {
         // 서버 종료 성공 시 정보 반환
         console.log(`SERVER CLOSED`);
         console.log(`INSTANCE_ID: ${EVM.NODE_APP_INSTANCE}`);
