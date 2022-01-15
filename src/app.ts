@@ -7,6 +7,15 @@ import router from "./router";
 
 const app = express();
 
+// 서버 종료 직전에 true로 바뀌고, 모든 요청의 isDisableKeepAlive를 끔
+let isDisableKeepAlive = false;
+
+app.use((req, res, next) => {
+    // 서버 종료가 시작됐을 시 Connection을 종료함
+    if (isDisableKeepAlive) res.set("Connection", "close");
+    next();
+});
+
 app.get('/', (req: express.Request, res: express.Response) => {
     var responseText = 'Hello World!';
     res.send(responseText);
@@ -43,7 +52,23 @@ io.sockets.on("connection", (socket) => {
 
 
 httpServer.listen(EVM.PORT, () => {
+    process.send('ready')
     console.log('Started server with 3000');
+});
+
+process.on("SIGINT", () => {
+    // 서버 종료 시 안전 종료를 위한 변수
+    isDisableKeepAlive = true;
+
+    // 안전한 서버 종료
+    httpServer.close(async () => {
+        // 서버 종료 성공 시 정보 반환
+        console.log(`SERVER CLOSED`);
+        console.log(`INSTANCE_ID: ${EVM.NODE_APP_INSTANCE}`);
+
+        // 종료
+        return process.exit(0);
+    });
 });
 
 export default app;

@@ -19,4 +19,15 @@ module.exports = {
 			kill_timeout: 5000,
 		},
 	],
+	deploy: {
+		production: {
+			key: "./SiSo-server-ec2.pem",
+			user: "ubuntu",
+			host: "api.playground.party",
+			ref: "origin/master",
+			repo: "git@github.com:chrisais9/SiSo-iOS.git",
+			path: "/home/ubuntu/SiSo-server",
+			"post-deploy": "sudo npm run setup && sudo npm start",
+		},
+	},
 };
