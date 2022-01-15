@@ -52,7 +52,7 @@ io.sockets.on("connection", (socket) => {
 
 
 httpServer.listen(EVM.PORT, () => {
-    process.send('ready')
+    process.send && process.send("ready")
     console.log('Started server with 3000');
 });
 
