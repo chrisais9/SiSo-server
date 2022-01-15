@@ -22,7 +22,7 @@ class AuthController extends Controller {
     }
 
     /**
-     * @description register from social login access token
+     * @description Register from social login access token
      */
     public async register(req: Request, res: Response, next: NextFunction) {
         let { type, token } = req.body
