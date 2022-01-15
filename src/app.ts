@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req: express.Request, res: express.Response) => {
-    var responseText = 'Hello World!';
+    var responseText = '시소 서버 정상 작동중!';
     res.send(responseText);
 });
 
