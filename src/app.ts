@@ -6,6 +6,7 @@ import SlackManager from "./modules/SlackManager";
 import morgan from "morgan"
 
 import router from "./router";
+import helmet from "helmet";
 
 const app = express();
 
@@ -16,21 +17,25 @@ app.use((req, res, next) => {
     // 서버 종료가 시작됐을 시 Connection을 종료함
     if (isDisableKeepAlive) res.set("Connection", "close");
     next();
-});
+})
+
+app.use(helmet()) // 보안 모듈
+
 app.use(
     morgan(`:date[iso] :method :url :status :response-time ms`, {
         skip: () => EVM.MUTE_LOG_MORGAN // 테스트 시 로그 숨기기 설정
     })
 )
 
+app.use(express.urlencoded({ limit: "100mb", extended: true })); // urlencode 지원
+app.use(express.json({ limit: "100mb" })); // json 지원
+
+app.set("trust proxy", true); // 프록시 설정
+
 app.get('/', (req: express.Request, res: express.Response) => {
     var responseText = '시소 서버 정상 작동중!';
     res.send(responseText);
 });
-
-app.use(express.urlencoded({ limit: "100mb", extended: true })); // urlencode 지원
-app.use(express.json({ limit: "100mb" })); // json 지원
-
 app.use(router); // 라우터 연결
 
 // const httpServer = createServer(app);
