@@ -23,7 +23,7 @@ module.exports = {
 		production: {
 			key: "./SiSo-server-ec2.pem",
 			user: "ubuntu",
-			host: "api.playground.party",
+			host: "13.125.110.140",
 			ref: "origin/master",
 			repo: "git@github.com:chrisais9/SiSo-server.git",
 			path: "/home/ubuntu/SiSo-server",
