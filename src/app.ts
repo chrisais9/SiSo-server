@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import EVM from "./modules/EnvironmentVariableManager";
 import SlackManager from "./modules/SlackManager";
+import morgan from "morgan"
 
 import router from "./router";
 
@@ -16,6 +17,11 @@ app.use((req, res, next) => {
     if (isDisableKeepAlive) res.set("Connection", "close");
     next();
 });
+app.use(
+    morgan(`:date[iso] :method :url :status :response-time ms`, {
+        skip: () => EVM.MUTE_LOG_MORGAN // 테스트 시 로그 숨기기 설정
+    })
+)
 
 app.get('/', (req: express.Request, res: express.Response) => {
     var responseText = '시소 서버 정상 작동중!';
