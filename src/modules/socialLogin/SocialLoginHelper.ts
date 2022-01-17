@@ -8,7 +8,7 @@
 
 import { StatusCodes } from "http-status-codes";
 import { createHttpError, SentenceKey } from "../HttpError";
-import { SocialLoginStrategies } from "./SocialLoginStrategies";
+import SocialLoginStrategy, { SocialLoginStrategies } from "./SocialLoginStrategies";
 import Kakao from "./strategy/Kakao";
 
 /**
@@ -29,7 +29,7 @@ class SocialLoginHelper {
     }
 
     async socialLoginInformation(type: SocialLoginStrategies, token: string) {
-        let social = this.socialLoginList[type]
+        let social: SocialLoginStrategy = this.socialLoginList[type]
         if (!social) throw createHttpError(StatusCodes.BAD_REQUEST, SentenceKey.BAD_LOGIN_TYPE)
         return await social.tokenInfo(token)
     }
