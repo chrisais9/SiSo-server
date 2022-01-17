@@ -60,7 +60,7 @@ export interface IUserModel extends Model<IUserSchema> {
     loginByJWTToken(this: IUserModel, jwtToken: string): Promise<IUserSchema>
 }
 
-UserSchema.statics.registerBySocialToken = async function (this: IUserModel, type: SocialLoginStrategies, token: string): Promise<string> {
+UserSchema.statics.loginBySocialToken = async function (this: IUserModel, type: SocialLoginStrategies, token: string): Promise<string> {
     try {
         let socialInfo = await SocialLoginHelper.socialLoginInformation(type, token)
         if (!socialInfo) throw createHttpError(StatusCodes.UNAUTHORIZED, SentenceKey.BAD_TOKEN, "잘못된 소셜 토큰")
