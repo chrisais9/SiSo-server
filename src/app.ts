@@ -7,6 +7,10 @@ import morgan from "morgan"
 
 import router from "./router";
 import helmet from "helmet";
+import MongoDBHelper from "./modules/mongodb/MongoDBHelper";
+
+
+MongoDBHelper.init()
 
 const app = express();
 
@@ -69,14 +73,15 @@ app.use(router); // 라우터 연결
 
 
 const server = app.listen(EVM.PORT, async () => {
-    process.uptime
-    if (process.send) {
-        process.send("ready")
-    }
 
-    if (EVM.NODE_APP_INSTANCE == 0 && EVM.NODE_ENV == "production") await SlackManager.sendSimpleMessage(`[${new Date().toLocaleString()}] *🟩 서버 재시작이 완료 되었습니다.*`)
+    MongoDBHelper.open(async () => {
+        process.send && process.send("ready")
+        if (EVM.NODE_APP_INSTANCE == 0 && EVM.NODE_ENV == "production") await SlackManager.sendSimpleMessage(`[${new Date().toLocaleString()}] *🟩 서버 재시작이 완료 되었습니다.*`)
 
-    console.log('Started server with 3000');
+        console.log('Started server with 3000')
+        return
+    })
+
 });
 
 process.on("SIGINT", () => {
@@ -90,6 +95,9 @@ process.on("SIGINT", () => {
         console.log(`INSTANCE_ID: ${EVM.NODE_APP_INSTANCE}`);
 
         if (EVM.NODE_APP_INSTANCE == 0 && EVM.NODE_ENV == "production") await SlackManager.sendSimpleMessage(`[${new Date().toLocaleString()}] *🟥 서버가 정상적으로 종료되었습니다. 재시작 대기중...*`)
+
+        // db 정상 종료
+        await MongoDBHelper.getDB().close()
 
         // 종료
         return process.exit(0);
