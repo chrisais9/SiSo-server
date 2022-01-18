@@ -92,7 +92,7 @@ UserSchema.statics.registerBySocialToken = async function (this: IUserModel, typ
         type: info.type,
         email: info.email,
         userId: info.userId,
-        userName: info.userName,
+        userName: `${type}-${info.userId}-${info.userName}`,
         profileImage: info.profileImage || ""
     })
 
