@@ -26,7 +26,7 @@ class Naver extends SocialLoginStrategy {
                 email: userData?.response?.email,
                 profileImage: userData?.response?.profile_image,
                 userName: userData?.response?.nickname,
-                userId: userData.id,
+                userId: userData?.response?.id,
             };
         } catch (error) {
             throw createHttpError(StatusCodes.UNAUTHORIZED, SentenceKey.BAD_TOKEN, "잘못된 소셜 토큰");
