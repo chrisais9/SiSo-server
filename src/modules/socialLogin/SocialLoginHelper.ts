@@ -11,6 +11,7 @@ import { createHttpError, SentenceKey } from "../HttpError";
 import SocialLoginStrategy, { SocialLoginStrategies } from "./SocialLoginStrategies";
 import Facebook from "./strategy/Facebook";
 import Kakao from "./strategy/Kakao";
+import Naver from "./strategy/Naver";
 
 /**
  * @description Fields which can be fetched by social login api
@@ -26,7 +27,8 @@ export interface SocialLoginInfo {
 class SocialLoginHelper {
     private readonly socialLoginList = {
         [SocialLoginStrategies.KAKAO]: Kakao,
-        [SocialLoginStrategies.FACEBOOK]: Facebook
+        [SocialLoginStrategies.FACEBOOK]: Facebook,
+        [SocialLoginStrategies.NAVER]: Naver
         // todo
     }
 
