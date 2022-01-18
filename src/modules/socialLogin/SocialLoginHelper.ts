@@ -9,6 +9,7 @@
 import { StatusCodes } from "http-status-codes";
 import { createHttpError, SentenceKey } from "../HttpError";
 import SocialLoginStrategy, { SocialLoginStrategies } from "./SocialLoginStrategies";
+import Facebook from "./strategy/Facebook";
 import Kakao from "./strategy/Kakao";
 
 /**
@@ -24,7 +25,8 @@ export interface SocialLoginInfo {
 
 class SocialLoginHelper {
     private readonly socialLoginList = {
-        [SocialLoginStrategies.KAKAO]: Kakao
+        [SocialLoginStrategies.KAKAO]: Kakao,
+        [SocialLoginStrategies.FACEBOOK]: Facebook
         // todo
     }
 
