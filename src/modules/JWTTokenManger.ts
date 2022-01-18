@@ -14,6 +14,8 @@ class JWTTokenManager {
             createdAt: user.updatedAt,
         };
 
+        console.log("-------" + userTokenData)
+
         return jwt.sign(userTokenData, EVM.SECRET, {
             issuer: "api.playground.party",
         });
