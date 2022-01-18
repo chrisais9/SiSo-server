@@ -37,7 +37,7 @@ export const UserSchema: Schema = new Schema(
     {
         type: { type: String, enum: Object.values(SocialLoginStrategies), required: true, index: true },
 
-        email: { type: String, unique: true },
+        email: { type: String },
         userId: { type: String, required: true, unique: true, index: true },
         userName: { type: String, required: true, unique: true, index: true },
         profileImage: { type: String, default: "" }
@@ -98,8 +98,7 @@ UserSchema.statics.registerBySocialToken = async function (this: IUserModel, typ
 
     try {
         return JWTTokenManger.createUserJWTToken(await newUser.save())
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
         throw createHttpError(StatusCodes.CONFLICT, SentenceKey.ALREADY_REGISTERED, "이미 가입된 계정")
     }
 }
