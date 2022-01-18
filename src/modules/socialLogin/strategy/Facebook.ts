@@ -1,3 +1,9 @@
+/**
+ * @author KooHyongMo
+ * @email chrisais9@playground.party
+ * @create date 2022-01-18
+ * @modify date 2022-01-18
+ */
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import { createHttpError, SentenceKey } from "../../HttpError";
@@ -29,4 +35,4 @@ class Facebook extends SocialLoginStrategy {
         }
     }
 }
-export default new Facebook();
+export default new Facebook()
