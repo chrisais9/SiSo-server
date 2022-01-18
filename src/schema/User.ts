@@ -99,6 +99,7 @@ UserSchema.statics.registerBySocialToken = async function (this: IUserModel, typ
     try {
         return JWTTokenManger.createUserJWTToken(await newUser.save())
     } catch (error) {
+        console.error(error);
         throw createHttpError(StatusCodes.CONFLICT, SentenceKey.ALREADY_REGISTERED, "이미 가입된 계정")
     }
 }
