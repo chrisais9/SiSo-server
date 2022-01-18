@@ -10,6 +10,7 @@ import { StatusCodes } from "http-status-codes";
 import { createHttpError, SentenceKey } from "../HttpError";
 import SocialLoginStrategy, { SocialLoginStrategies } from "./SocialLoginStrategies";
 import Facebook from "./strategy/Facebook";
+import Google from "./strategy/Google";
 import Kakao from "./strategy/Kakao";
 import Naver from "./strategy/Naver";
 
@@ -28,7 +29,8 @@ class SocialLoginHelper {
     private readonly socialLoginList = {
         [SocialLoginStrategies.KAKAO]: Kakao,
         [SocialLoginStrategies.FACEBOOK]: Facebook,
-        [SocialLoginStrategies.NAVER]: Naver
+        [SocialLoginStrategies.NAVER]: Naver,
+        [SocialLoginStrategies.GOOGLE]: Google
         // todo
     }
 
