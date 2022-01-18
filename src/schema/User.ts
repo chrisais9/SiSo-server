@@ -90,6 +90,7 @@ UserSchema.statics.registerBySocialToken = async function (this: IUserModel, typ
 
     let newUser = new this({
         type: info.type,
+        email: info.email,
         userId: info.userId,
         userName: info.userName,
         profileImage: info.profileImage || ""

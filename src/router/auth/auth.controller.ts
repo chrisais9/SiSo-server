@@ -37,6 +37,12 @@ class AuthController extends Controller {
         }
     }
 
+    public async getProfile(req: Request, res: Response, next: NextFunction) {
+        let user = req.user // from middleware
+
+        return super.response(res, StatusCodes.OK, await user.save());
+    }
+
 }
 
 export default new AuthController()
