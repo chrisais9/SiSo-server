@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import { createHttpError, SentenceKey, SentenceList } from '../modules/HttpError';
 import User, { IUserSchema } from '../schema/User';
+import expressFileUpload from 'express-fileupload';
 
 declare global {
     namespace Express {
@@ -56,4 +57,11 @@ export default class Controller {
             return next(err)
         }
     }
+
+    /**
+     * @description 파일 업로드 미들웨어 100MB
+     */
+    public static fileUpload = expressFileUpload({
+        limits: { fileSize: 100 * 1024 * 1024 },
+    });
 }

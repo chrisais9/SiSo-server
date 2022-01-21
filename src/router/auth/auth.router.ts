@@ -10,6 +10,6 @@ router.post("/register", AuthController.register)
 
 router.get("/profile", Controller.authenticate, AuthController.getProfile)
 
-router.post("/profile-image", Controller.authenticate, AuthController.setProfileImage)
+router.post("/profile-image", Controller.authenticate, Controller.fileUpload, AuthController.setProfileImage)
 
 export default router
