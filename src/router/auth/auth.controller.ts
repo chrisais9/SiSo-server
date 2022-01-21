@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import Jimp from "jimp";
+import S3Manager from "../../modules/aws/S3Manager";
 import { createHttpError, SentenceKey } from "../../modules/HttpError";
 import User from "../../schema/User";
 import Controller from "../Controller";
@@ -41,6 +44,30 @@ class AuthController extends Controller {
         let user = req.user // from middleware
 
         return super.response(res, StatusCodes.OK, await user.save());
+    }
+
+    public async setProfileImage(req: Request, res: Response, next: NextFunction) {
+        let user = req.user
+        let imageFile = req.files?.file as UploadedFile
+        let fileType = imageFile.name.split(".").pop()
+
+        try {
+
+            if (!imageFile || fileType) throw createHttpError(StatusCodes.BAD_REQUEST, req.string[SentenceKey.NO_DATA], "이미지 데이터 누락")
+
+            let file = imageFile.data
+            try {
+                file = await (await Jimp.read(imageFile.data)).resize(256, 256).getBufferAsync(imageFile.mimetype)
+            } catch (error) { }
+
+            let result = await S3Manager.upload("playground-siso", `user/${user._id}/profileImage.${fileType}`, file)
+            user.profileImage = result.Location
+
+            return super.response(res, StatusCodes.OK, await user.save())
+        } catch (error) {
+            console.error(JSON.stringify(imageFile))
+            return next(error)
+        }
     }
 
 }

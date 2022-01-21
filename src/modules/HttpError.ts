@@ -33,6 +33,13 @@ export enum SentenceKey {
 	DUPLICATED_NAME = "DUPLICATED_NAME", // 중복된 닉네임
 }
 
+/**
+ * @description 문장 키 강제 적용
+ */
+export type SentenceList = {
+	[key in SentenceKey]: string
+};
+
 export function createHttpError(status: StatusCodes | number, message: string | SentenceKey, devMessage?: string): HttpError {
 	// HttpError 생성
 	let httpError: HttpError = <HttpError>new Error(message);
@@ -41,7 +48,7 @@ export function createHttpError(status: StatusCodes | number, message: string | 
 	httpError.devMessage = devMessage;
 
 	// 이 함수에서 에러를 생성하는 로직을 에러 스택에서 제거
-	Error.captureStackTrace(httpError, createHttpError);
+	Error.captureStackTrace(httpError, createHttpError)
 
-	return httpError;
+	return httpError
 }
