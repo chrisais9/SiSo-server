@@ -8,6 +8,7 @@ import morgan from "morgan"
 import router from "./router";
 import helmet from "helmet";
 import MongoDBHelper from "./modules/mongodb/MongoDBHelper";
+import compression from "compression";
 
 
 MongoDBHelper.init()
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 })
 
 app.use(helmet()) // 보안 모듈
+app.use(compression()); // 압축 모듈
 
 app.use(
     morgan(`:date[iso] :method :url :status :response-time ms`, {

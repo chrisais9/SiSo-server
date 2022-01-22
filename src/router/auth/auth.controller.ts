@@ -53,7 +53,7 @@ class AuthController extends Controller {
 
         try {
 
-            if (!imageFile || fileType) throw createHttpError(StatusCodes.BAD_REQUEST, req.string[SentenceKey.NO_DATA], "이미지 데이터 누락")
+            if (!imageFile || !fileType) throw createHttpError(StatusCodes.BAD_REQUEST, req.string[SentenceKey.NO_DATA], "이미지 데이터 누락")
 
             let file = imageFile.data
             try {
