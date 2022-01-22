@@ -25,11 +25,8 @@ class ErrorHandler extends Controller {
         let status = err.status || 500; // 상태 코드
         if (status == 401) err.message = SentenceKey.UNAUTHORIZED; // 401 예외처리
 
-        // 언어별 에러 메세지 (유저에게 노출될 메세지)
-        let langMessage = Object.values(SentenceKey).indexOf(err.message as SentenceKey) != -1 ? req.string[err.message] : err.message;
-
         // 언어별 메세지가 있으면 그대로 진행, 아닐 시 기본값 사용
-        let message = langMessage || getReasonPhrase(err.status);
+        let message = getReasonPhrase(err.status);
 
         // 개발용 메세지
         let devMessageObj = {

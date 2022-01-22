@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
 import Jimp from "jimp";
+import moment from "moment";
 import S3Manager from "../../modules/aws/S3Manager";
 import { createHttpError, SentenceKey } from "../../modules/HttpError";
 import User from "../../schema/User";
@@ -60,7 +61,9 @@ class AuthController extends Controller {
                 file = await (await Jimp.read(imageFile.data)).resize(256, 256).getBufferAsync(imageFile.mimetype)
             } catch (error) { }
 
-            let result = await S3Manager.upload("playground-siso", `user/${user._id}/profileImage.${fileType}`, file)
+            let unixEpoch = moment().unix()
+
+            let result = await S3Manager.upload("playground-siso", `user/${user._id}/profile_image-${unixEpoch}.${fileType}`, file)
             user.profileImage = result.Location
 
             return super.response(res, StatusCodes.OK, await user.save())
