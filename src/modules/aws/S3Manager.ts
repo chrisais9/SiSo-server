@@ -22,6 +22,15 @@ class S3Manager {
             })
             .promise()
     }
+
+    async delete(bucket: string, filename: string): Promise<AWS.S3.DeleteObjectOutput> {
+        return await this.s3
+            .deleteObject({
+                Bucket: bucket,
+                Key: filename,
+            })
+            .promise();
+    }
 }
 
 export default new S3Manager()

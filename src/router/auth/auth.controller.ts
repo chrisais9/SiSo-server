@@ -61,10 +61,15 @@ class AuthController extends Controller {
                 file = await (await Jimp.read(imageFile.data)).resize(256, 256).getBufferAsync(imageFile.mimetype)
             } catch (error) { }
 
-            let unixEpoch = moment().unix()
+            // 기존 프로필 이미지 지우고
+            if (user.profileImage.length != 0) {
+                await S3Manager.delete("playground-siso", `user/${user._id}/${user.profileImage}`)
+            }
 
-            let result = await S3Manager.upload("playground-siso", `user/${user._id}/profile_image-${unixEpoch}.${fileType}`, file)
-            user.profileImage = result.Location
+            let unixEpoch = moment().unix()
+            // 새 프로필 이미지 올리기
+            let uploadResult = await S3Manager.upload("playground-siso", `user/${user._id}/profile_image-${unixEpoch}.${fileType}`, file)
+            user.profileImage = uploadResult.Location
 
             return super.response(res, StatusCodes.OK, await user.save())
         } catch (error) {
