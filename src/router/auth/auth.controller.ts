@@ -63,7 +63,9 @@ class AuthController extends Controller {
 
             // 기존 프로필 이미지 있으면 지우고
             if (user.profileImage.length != 0) {
-                await S3Manager.delete("playground-siso", `user/${user._id}`)
+                let url = new URL(user.profileImage)
+                let filename = url.pathname.split('/').pop()
+                await S3Manager.delete("playground-siso", `user/${user._id}/${filename}`)
             }
 
             let unixEpoch = moment().unix()
