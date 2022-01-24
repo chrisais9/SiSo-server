@@ -61,9 +61,9 @@ class AuthController extends Controller {
                 file = await (await Jimp.read(imageFile.data)).resize(256, 256).getBufferAsync(imageFile.mimetype)
             } catch (error) { }
 
-            // 기존 프로필 이미지 지우고
+            // 기존 프로필 이미지 있으면 지우고
             if (user.profileImage.length != 0) {
-                await S3Manager.delete("playground-siso", `user/${user._id}/${user.profileImage}`)
+                await S3Manager.delete("playground-siso", `user/${user._id}`)
             }
 
             let unixEpoch = moment().unix()
